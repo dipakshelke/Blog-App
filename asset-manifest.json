@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/dipakshelke/Blog-App/static/css/main.f855e6bc.css",
+    "main.js": "/dipakshelke/Blog-App/static/js/main.03cebf60.js",
+    "static/js/592.7f72a991.chunk.js": "/dipakshelke/Blog-App/static/js/592.7f72a991.chunk.js",
+    "index.html": "/dipakshelke/Blog-App/index.html",
+    "main.f855e6bc.css.map": "/dipakshelke/Blog-App/static/css/main.f855e6bc.css.map",
+    "main.03cebf60.js.map": "/dipakshelke/Blog-App/static/js/main.03cebf60.js.map",
+    "592.7f72a991.chunk.js.map": "/dipakshelke/Blog-App/static/js/592.7f72a991.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.03cebf60.js"
+  ]
+}
