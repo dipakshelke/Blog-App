@@ -1,56 +1,77 @@
 import "./App.css";
-import { Layout, Spin, theme } from "antd";
-import Blog from "./components/Blog";
-import { useBlogs } from "./useBlogs";
+import { Button, Layout } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { Routes, Route, useNavigate } from "react-router-dom";
+import BlogList from "./components/BlogList";
+import CreateBlog from "./components/CreateBlog";
+import { createContext, useContext, useState } from "react";
+import ViewBlog from "./components/ViewBlog";
 const { Header, Content, Footer } = Layout;
 
-function App() {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+export const BlogContext = createContext([]);
 
-  const { loading, blogList } = useBlogs();
+// const list = [
+//   {
+//     id: 1,
+//     title: "How to use Redux",
+//     description: "lorem text",
+//     image: "",
+//   },
+//   {
+//     id: 1,
+//     title: "How to use HTML",
+//     description: "lorem text",
+//     image: "",
+//   },
+// ];
+
+function App() {
+  const navigate = useNavigate();
+
+  const [blogList, setBlockList] = useState([]);
+
+  const onSubmit = (values) => {
+    setBlockList((prev) => [...prev, { id: prev.length + 1, ...values }]);
+  };
 
   return (
-    <div className="App">
-      <Layout>
-        <Header
-          style={{
-            display: "flex",
-            alignItems: "center",
-            background: "#f5f5f5",
-          }}
-        >
-          <h1 style={{ paddingTop: "30px" }}>Blogs</h1>
-        </Header>
-        <Content style={{ padding: "40px 48px", height: "80vh" }}>
-          <div
+    <BlogContext.Provider value={{ blogList, onSubmit }}>
+      <div className="App">
+        <Layout>
+          <Header
             style={{
-              background: colorBgContainer,
-              height: "100%",
-              padding: 24,
-              borderRadius: borderRadiusLG,
               display: "flex",
-              gap: "30px",
-              flexWrap: "wrap",
+              alignItems: "center",
+              background: "#f5f5f5",
+              padding: "50px 48px 0px 48px",
+              justifyContent: "space-between",
             }}
           >
-            {loading ? (
-              <Spin spinning={loading} fullscreen />
-            ) : blogList?.length ? (
-              blogList.map((blog) => {
-                return <Blog key={blog.id} {...blog} />;
-              })
-            ) : (
-              "No data available"
-            )}
-          </div>
-        </Content>
-        <Footer style={{ textAlign: "center" }}>
-          Blog App ©{new Date().getFullYear()} Created by Dipak Shelke
-        </Footer>
-      </Layout>
-    </div>
+            <h1>Blogs</h1>
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              size="large"
+              onClick={() => navigate("/create")}
+            >
+              Create New
+            </Button>
+          </Header>
+
+          <Content style={{ padding: "40px 48px", minHeight: "70vh" }}>
+            <Routes>
+              <Route path="/home" element={<BlogList />} />
+              <Route path="/create" element={<CreateBlog />} />
+              <Route path="/blog/:id" element={<ViewBlog />} />
+              <Route path="*" element={<BlogList />} />
+            </Routes>
+          </Content>
+          <Footer style={{ textAlign: "center" }}>
+            Blog App ©{new Date().getFullYear()} Created by Dipak Shelke
+          </Footer>
+        </Layout>
+      </div>
+    </BlogContext.Provider>
   );
 }
 
